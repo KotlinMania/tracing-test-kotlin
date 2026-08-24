@@ -797,6 +797,20 @@ tasks.register("swiftExportSmokeTest") {
             }
         }
 
+        val spmPackageDir =
+            layout.buildDirectory
+                .dir("SPMPackage/macosArm64/Debug")
+                .get()
+                .asFile
+        if (spmPackageDir.exists()) {
+            spmPackageDir.walkTopDown().forEach { file ->
+                file.setLastModified(1700000000000L)
+            }
+        }
+
+        val spmBuildDir = layout.projectDirectory.dir("swift-test-harness/.build").asFile
+        spmBuildDir.deleteRecursively()
+
         execOperations
             .exec {
                 workingDir = layout.projectDirectory.dir("swift-test-harness").asFile
