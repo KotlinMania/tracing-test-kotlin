@@ -1,4 +1,4 @@
-// port-lint: tests tracing-test/src/lib.rs
+// port-lint: tests lib.rs
 package io.github.kotlinmania.tracingtest
 
 import kotlin.test.BeforeTest
