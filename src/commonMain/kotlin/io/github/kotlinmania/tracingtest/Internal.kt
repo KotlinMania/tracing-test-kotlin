@@ -1,4 +1,4 @@
-// port-lint: source internal.rs
+// port-lint: source tracing-test/src/internal.rs
 package io.github.kotlinmania.tracingtest
 
 /**
