@@ -8,8 +8,8 @@ Based on AST analysis, here are the concrete next steps.
 - **Function parity:** 9/9 matched (target 32) — 100.0%
 - **Class/type parity:** 2/2 matched (target 9) — 100.0%
 - **Combined symbol parity:** 11/11 matched (target 41) — 100.0%
-- **Average inline-code cosine:** 0.46 (function body across 3 matched files)
-- **Average documentation cosine:** 0.63 (doc text across 3 matched files)
+- **Average inline-code cosine:** 0.69 (function body across 2 matched files)
+- **Average documentation cosine:** 0.65 (doc text across 2 matched files)
 - **Cheat-zeroed Files:** 0
 - **Critical Issues:** 1 files with <0.60 function similarity
 
@@ -27,7 +27,7 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. subscriber
+### 1. tracing-test.subscriber
 
 - **Target:** `tracingtest.Subscriber`
 - **Similarity:** 0.74
@@ -38,7 +38,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched (target 7)
 - **Missing types:** _none_
 
-### 2. internal
+### 2. tracing-test.internal
 
 - **Target:** `tracingtest.Internal`
 - **Similarity:** 0.65
@@ -69,5 +69,5 @@ do not treat them as the next implementation target by default.
 
 | Source | Target | Path |
 |--------|--------|------|
-| `lib` | `tracingtest.Lib` | `lib` |
+| `tracing-test.lib` | `tracingtest.Lib` | `tracing-test/src/lib` |
 
