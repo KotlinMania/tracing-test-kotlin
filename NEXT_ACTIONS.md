@@ -27,9 +27,9 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. tracing-test.subscriber
+### 1. subscriber
 
-- **Target:** `tracingtest.Subscriber`
+- **Target:** `tracingtest.Subscriber [PROVENANCE-FALLBACK]`
 - **Similarity:** 0.74
 - **Dependents:** 0
 - **Priority Score:** 802.6
@@ -37,10 +37,15 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** _none_
 - **Types:** 2/2 matched (target 7)
 - **Missing types:** _none_
+- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tracing-test/src/subscriber.rs` vs expected `subscriber.rs`
+- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:tracing-test/src/subscriber.rs` vs expected `subscriber.rs`
+- **Proposed provenance header:** `// port-lint: source subscriber.rs` (current: `// port-lint: source tracing-test/src/subscriber.rs`)
+- **Proposed provenance header:** `// port-lint: tests subscriber.rs` (current: `// port-lint: tests tracing-test/src/subscriber.rs`)
+- **Lint issues:** 2
 
-### 2. tracing-test.internal
+### 2. internal
 
-- **Target:** `tracingtest.Internal`
+- **Target:** `tracingtest.Internal [PROVENANCE-FALLBACK]`
 - **Similarity:** 0.65
 - **Dependents:** 0
 - **Priority Score:** 303.5
@@ -48,6 +53,11 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** _none_
 - **Types:** 0/0 matched (target 2)
 - **Missing types:** _none_
+- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tracing-test/src/internal.rs` vs expected `internal.rs`
+- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:tracing-test/src/internal.rs` vs expected `internal.rs`
+- **Proposed provenance header:** `// port-lint: source internal.rs` (current: `// port-lint: source tracing-test/src/internal.rs`)
+- **Proposed provenance header:** `// port-lint: tests internal.rs` (current: `// port-lint: tests tracing-test/src/internal.rs`)
+- **Lint issues:** 2
 
 ## Success Criteria
 
@@ -69,5 +79,5 @@ do not treat them as the next implementation target by default.
 
 | Source | Target | Path |
 |--------|--------|------|
-| `tracing-test.lib` | `tracingtest.Lib` | `tracing-test/src/lib` |
+| `lib` | `tracingtest.Lib` | `lib` |
 
