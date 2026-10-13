@@ -1,32 +1,31 @@
 // port-lint: source internal.rs
 package io.github.kotlinmania.tracingtest
 
+import io.github.kotlinmania.oncecell.sync.OnceCell
+
 /**
  * Static variable state ensuring logging is initialized only once.
  */
 public object Initialized {
-    private var isInit: Boolean = false
+    private var cell: OnceCell<Unit> = OnceCell()
 
     /**
      * Return whether logging has been initialized.
      */
-    public fun isInitialized(): Boolean = isInit
+    public fun isInitialized(): Boolean = cell.isInitialized()
 
     /**
      * Execute [block] only once.
      */
     public fun callOnce(block: () -> Unit) {
-        if (!isInit) {
-            isInit = true
-            block()
-        }
+        check(cell.getOrInit(block) == Unit)
     }
 
     /**
      * Reset initialization state for testing.
      */
     public fun reset() {
-        isInit = false
+        cell = OnceCell()
     }
 }
 
@@ -43,12 +42,12 @@ public var INITIALIZED: Boolean
         }
     }
 
-private val GLOBAL_BUF: LogBuffer = LogBuffer()
+private val GLOBAL_BUF_CELL: OnceCell<LogBuffer> = OnceCell()
 
 /**
  * The global log output buffer used in tests.
  */
-public fun globalBuf(): LogBuffer = GLOBAL_BUF
+public fun globalBuf(): LogBuffer = GLOBAL_BUF_CELL.getOrInit { LogBuffer() }
 
 /**
  * Return whether the logs with the specified scope contain the specified value.
