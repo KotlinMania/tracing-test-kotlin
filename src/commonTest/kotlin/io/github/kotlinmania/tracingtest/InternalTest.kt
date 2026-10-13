@@ -56,7 +56,7 @@ class InternalTest {
 
         val result =
             logsAssert(testScope) { lines ->
-                val count = lines.filter { line -> line.contains("logged message") }.size
+                val count = lines.count { line -> line.contains("logged message") }
                 if (count == 2) {
                     Result.success(Unit)
                 } else {
