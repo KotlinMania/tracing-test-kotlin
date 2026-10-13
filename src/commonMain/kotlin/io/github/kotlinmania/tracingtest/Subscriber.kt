@@ -1,19 +1,19 @@
 // port-lint: source subscriber.rs
 package io.github.kotlinmania.tracingtest
 
+import io.github.kotlinmania.bytes.BytesMut
+
 /**
  * A thread-safe buffer for raw byte data.
  */
 public class LogBuffer {
-    private val bytes: MutableList<Byte> = mutableListOf()
+    private val bytes: BytesMut = BytesMut.withCapacity(1024)
 
     /**
      * Writes raw bytes into the buffer.
      */
     public fun write(buf: ByteArray): Int {
-        for (b in buf) {
-            bytes.add(b)
-        }
+        bytes.putSlice(buf)
         return buf.size
     }
 
@@ -28,12 +28,12 @@ public class LogBuffer {
     /**
      * Returns the buffer contents as a byte array.
      */
-    public fun toByteArray(): ByteArray = bytes.toByteArray()
+    public fun toByteArray(): ByteArray = bytes.asRef()
 
     /**
      * Decodes the buffer contents as a UTF-8 string.
      */
-    public fun toUtf8String(): String = bytes.toByteArray().decodeToString()
+    public fun toUtf8String(): String = bytes.asRef().decodeToString()
 
     /**
      * Clears the buffer contents.
