@@ -1,6 +1,8 @@
 // port-lint: tests lib.rs
 package io.github.kotlinmania.tracingtest
 
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -42,6 +44,45 @@ class TracedTestIntegrationTest {
 
         assertTrue(assertResult.isSuccess)
     }
+
+    @Test
+    fun testLogsAreCapturedFromAsyncSpawn() =
+        runTest {
+            val testScope = "test_logs_are_captured_async"
+            val buffer = globalBuf()
+            val writer = MockWriter.new(buffer)
+            val dispatch = getSubscriber(writer, "my_crate=trace")
+
+            assertEquals("my_crate=trace", dispatch.subscriber.envFilter)
+
+            // Local log
+            writer.write("INFO $testScope: This is being logged on the info level\n".encodeToByteArray())
+
+            // Log from a spawned task / coroutine
+            val job =
+                launch {
+                    writer.write("WARN $testScope: This is being logged on the warn level from a spawned task\n".encodeToByteArray())
+                }
+            job.join()
+
+            // Ensure that certain strings are or aren't logged
+            assertTrue(logsWithScopeContain(testScope, "logged on the info level"))
+            assertTrue(logsWithScopeContain(testScope, "logged on the warn level"))
+            assertFalse(logsWithScopeContain(testScope, "logged on the error level"))
+
+            // Ensure that the string `logged` is logged exactly twice
+            val assertResult =
+                logsAssert(testScope) { lines ->
+                    val matching = lines.filter { it.contains("logged") }
+                    if (matching.size == 2) {
+                        Result.success(Unit)
+                    } else {
+                        Result.failure(IllegalStateException("Expected two matching logs, but found ${matching.size}"))
+                    }
+                }
+
+            assertTrue(assertResult.isSuccess)
+        }
 
     @Test
     fun testPlainOldTestFlow() {
