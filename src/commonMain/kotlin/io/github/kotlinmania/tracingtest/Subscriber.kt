@@ -91,11 +91,6 @@ public class MockWriter(
 }
 
 /**
- * Writer type alias matching MakeWriter associated type.
- */
-public typealias Writer = MockWriter
-
-/**
  * A subscriber dispatch handle.
  */
 public class Dispatch(
